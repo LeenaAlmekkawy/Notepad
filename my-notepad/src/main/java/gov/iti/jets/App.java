@@ -341,20 +341,16 @@ public class App extends Application
 
     }
 
-    private Tab createNewTab(String tabTitle,Stage primaryStage)
-    {
-
-
+    private Tab createNewTab(String tabTitle, Stage primaryStage) {
         //adding status bar
         HBox statusBar = new HBox();
-        Label charNum= new Label();
+        Label charNum = new Label();
+        Label colNum = new Label();
+        Label rowNum = new Label();
 
-        Label colNum= new Label();
-
-        Label rowNum= new Label();
-        charNum.setText(" | "+String.valueOf(0) +" characters");
-        rowNum.setText("Ln "+String.valueOf(1));
-        colNum.setText(", Col "+String.valueOf(1));
+        charNum.setText(" | " + String.valueOf(0) + " characters");
+        rowNum.setText("Ln " + String.valueOf(1));
+        colNum.setText(", Col " + String.valueOf(1));
 
 
         statusBar.getChildren().add(rowNum);
@@ -362,57 +358,49 @@ public class App extends Application
         statusBar.getChildren().add(charNum);
 
         //adding text area
-        TextArea textArea=new TextArea();
+        TextArea textArea = new TextArea();
+        ScrollPane scrollPane = new ScrollPane(textArea);
 
-
-
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        
         //  Scene scene =new Scene(root,500,600);
-        MenuBar menubar=new MenuBar();
+        MenuBar menubar = new MenuBar();
 
 
-
-        textArea.textProperty().addListener( (event)->
+        textArea.textProperty().addListener((event) ->
         {
 
             int caretPosition = textArea.getCaretPosition();
             //staus bar update
-            String str=textArea.getText();
-            int charCnt=0;
-            int rowCnt=1;
-            int colCnt=1;
+            String str = textArea.getText();
+            int charCnt = 0;
+            int rowCnt = 1;
+            int colCnt = 1;
 
 
-
-            for(int i=0; i<caretPosition; i++)
-            {
-                if(str.charAt(i)=='\n')
-                {
-                    colCnt=1;
+            for (int i = 0; i < caretPosition; i++) {
+                if (str.charAt(i) == '\n') {
+                    colCnt = 1;
                     rowCnt++;
-                }
-                else
-                {
+                } else {
                     colCnt++;
                 }
 
 
-
-
             }
 
-            for(int i=0; i<str.length(); i++)
-            {
-                if(str.charAt(i)!=' ' && str.charAt(i)!='\n')
+            for (int i = 0; i < str.length(); i++) {
+                if (str.charAt(i) != ' ' && str.charAt(i) != '\n')
                     charCnt++;
             }
-            charNum.setText(" | "+String.valueOf(charCnt) +" characters");
-            rowNum.setText("Ln "+String.valueOf(rowCnt));
-            colNum.setText(", Col "+String.valueOf(colCnt));
+            charNum.setText(" | " + String.valueOf(charCnt) + " characters");
+            rowNum.setText("Ln " + String.valueOf(rowCnt));
+            colNum.setText(", Col " + String.valueOf(colCnt));
 
             statusBar.getChildren().add(rowNum);
             statusBar.getChildren().add(colNum);
             statusBar.getChildren().add(charNum);
-
 
 
         });
@@ -422,68 +410,51 @@ public class App extends Application
         {
             int caretPosition = textArea.getCaretPosition();
             //staus bar update
-            String str=textArea.getText();
-            int charCnt=0;
-            int rowCnt=1;
-            int colCnt=1;
+            String str = textArea.getText();
+            int charCnt = 0;
+            int rowCnt = 1;
+            int colCnt = 1;
 
 
-
-            for(int i=0; i<caretPosition; i++)
-            {
-                if(str.charAt(i)=='\n')
-                {
-                    colCnt=1;
+            for (int i = 0; i < caretPosition; i++) {
+                if (str.charAt(i) == '\n') {
+                    colCnt = 1;
                     rowCnt++;
-                }
-                else
-                {
+                } else {
                     colCnt++;
                 }
 
 
-
-
             }
 
-            for(int i=0; i<str.length(); i++)
-            {
-                if(str.charAt(i)!=' ' && str.charAt(i)!='\n')
+            for (int i = 0; i < str.length(); i++) {
+                if (str.charAt(i) != ' ' && str.charAt(i) != '\n')
                     charCnt++;
             }
-            charNum.setText(" | "+String.valueOf(charCnt) +" characters");
-            rowNum.setText("Ln "+String.valueOf(rowCnt));
-            colNum.setText(", Col "+String.valueOf(colCnt));
+            charNum.setText(" | " + String.valueOf(charCnt) + " characters");
+            rowNum.setText("Ln " + String.valueOf(rowCnt));
+            colNum.setText(", Col " + String.valueOf(colCnt));
 
             statusBar.getChildren().add(rowNum);
             statusBar.getChildren().add(colNum);
             statusBar.getChildren().add(charNum);
 
 
-
         });
 
 
+        Tab tab = new Tab(tabTitle);
 
 
-
-
-
-
-
-
-        Tab tab=new Tab(tabTitle);
-
-
-        BorderPane root=new BorderPane();
+        BorderPane root = new BorderPane();
 
         root.setTop(menubar);
-        root.setCenter(textArea);
+        root.setCenter(scrollPane);
         root.setBottom(statusBar);
 
         tab.setContent(root);
 
-        menubar.getMenus().addAll(addFileMenu(textArea,primaryStage),addEditMenu(textArea),addHelpMenu(textArea),addFontMenu(textArea),addSizeMenu(textArea));
+        menubar.getMenus().addAll(addFileMenu(textArea, primaryStage), addEditMenu(textArea), addHelpMenu(textArea), addFontMenu(textArea), addSizeMenu(textArea));
 
         return tab;
 
